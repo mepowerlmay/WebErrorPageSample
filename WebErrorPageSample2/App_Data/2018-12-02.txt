@@ -1,0 +1,32 @@
+ ==================================================================================================== 
+ 發生時間：2018-12-02 01:23:35.4605 
+
+ Log等級：FATAL 
+
+ Logger：WebErrorPageSample2.ErrorPage 
+
+ Source：WebErrorPageSample2.ErrorPage.Page_Load 
+
+ 錯誤訊息：刻意產生的異常  
+
+ StackTrace：
+   於 System.Web.UI.Page.HandleError(Exception e)
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   於 System.Web.UI.Page.ProcessRequest(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   於 System.Web.UI.Page.ProcessRequest()
+   於 System.Web.UI.Page.ProcessRequestWithNoAssert(HttpContext context)
+   於 System.Web.UI.Page.ProcessRequest(HttpContext context)
+   於 ASP.default_aspx.ProcessRequest(HttpContext context)
+   於 System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   於 System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   於 System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+ Exception類別：System.Web.HttpUnhandledException 
+
+ Exception訊息：已發生類型 'System.Web.HttpUnhandledException' 的例外狀況。 
+
+ EXCEPTION OCCURRED：
+ System.Web.HttpUnhandledException 已發生類型 'System.Web.HttpUnhandledException' 的例外狀況。 Boolean HandleError(System.Exception)
+DivideByZeroException 嘗試以零除。 Void Page_Load(System.Object, System.EventArgs)
+ ==================================================================================================== 
+ 

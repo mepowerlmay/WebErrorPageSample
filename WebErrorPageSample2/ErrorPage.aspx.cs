@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,8 @@ namespace WebErrorPageSample2
 {
     public partial class ErrorPage : System.Web.UI.Page
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             // Create safe error messages.
@@ -20,63 +23,78 @@ namespace WebErrorPageSample2
             // Display safe error message.
             FriendlyErrorMsg.Text = generalErrorMsg;
 
-            // Determine where error was handled.
-            string errorHandler = Request.QueryString["handler"];
-            if (errorHandler == null)
-            {
-                errorHandler = "Error Page";
-            }
 
-            // Get the last error from the server.
+     
+
             Exception ex = Server.GetLastError();
+            logger.FatalException("刻意產生的異常 ", ex);
+            //  logger.Fatal(ExceptionUtility.BuildExceptionMessage(ex));
 
-            // Get the error number passed as a querystring value.
-            string errorMsg = Request.QueryString["msg"];
-            if (errorMsg == "404")
-            {
-                ex = new HttpException(404, httpErrorMsg, ex);
-                FriendlyErrorMsg.Text = ex.Message;
-            }
+            //    logger.Fatal(ExceptionUtility.BuildExceptionMessage(ex));
 
-            // If the exception no longer exists, create a generic exception.
-            if (ex == null)
-            {
-                ex = new Exception(unhandledErrorMsg);
-            }
+            // Logger.Error("Got exception.", ex); //before NLog 4.0
+            //  logger.Error(ex, "Got exception.");  //NLog 4.0
+            Server.ClearError();
 
-            // Show error details to only you (developer). LOCAL ACCESS ONLY.
-            if (Request.IsLocal)
-            {
-                // Detailed Error Message.
-                ErrorDetailedMsg.Text = ex.Message;
 
-                // Show where the error was handled.
-                ErrorHandler.Text = errorHandler;
 
-                // Show local access details.
-                DetailedErrorPanel.Visible = true;
+            // Determine where error was handled.
+            //string errorHandler = Request.QueryString["handler"];
+            //if (errorHandler == null)
+            //{
+            //    errorHandler = "Error Page";
+            //}
 
-                if (ex.InnerException != null)
-                {
-                    InnerMessage.Text = ex.GetType().ToString() + "<br/>" +
-                        ex.InnerException.Message;
-                    InnerTrace.Text = ex.InnerException.StackTrace;
-                }
-                else
-                {
-                    InnerMessage.Text = ex.GetType().ToString();
-                    if (ex.StackTrace != null)
-                    {
-                        InnerTrace.Text = ex.StackTrace.ToString().TrimStart();
-                    }
-                }
-            }
+            //// Get the last error from the server.
+            //Exception ex = Server.GetLastError();
 
-            // Log the exception.
-            ExceptionUtility.LogException(ex, errorHandler);
+            //// Get the error number passed as a querystring value.
+            //string errorMsg = Request.QueryString["msg"];
+            //if (errorMsg == "404")
+            //{
+            //    ex = new HttpException(404, httpErrorMsg, ex);
+            //    FriendlyErrorMsg.Text = ex.Message;
+            //}
+
+            //// If the exception no longer exists, create a generic exception.
+            //if (ex == null)
+            //{
+            //    ex = new Exception(unhandledErrorMsg);
+            //}
+
+            //// Show error details to only you (developer). LOCAL ACCESS ONLY.
+            //if (Request.IsLocal)
+            //{
+            //    // Detailed Error Message.
+            //    ErrorDetailedMsg.Text = ex.Message;
+
+            //    // Show where the error was handled.
+            //    ErrorHandler.Text = errorHandler;
+
+            //    // Show local access details.
+            //    DetailedErrorPanel.Visible = true;
+
+            //    if (ex.InnerException != null)
+            //    {
+            //        InnerMessage.Text = ex.GetType().ToString() + "<br/>" +
+            //            ex.InnerException.Message;
+            //        InnerTrace.Text = ex.InnerException.StackTrace;
+            //    }
+            //    else
+            //    {
+            //        InnerMessage.Text = ex.GetType().ToString();
+            //        if (ex.StackTrace != null)
+            //        {
+            //            InnerTrace.Text = ex.StackTrace.ToString().TrimStart();
+            //        }
+            //    }
+            //}
+
+            //// Log the exception.
+            //ExceptionUtility.LogException(ex, errorHandler);
 
             // Clear the error from the server.
-            Server.ClearError();
+
         }
     }
 }

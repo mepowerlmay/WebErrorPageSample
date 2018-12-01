@@ -1,5 +1,0 @@
-********** 2018/11/27 下午 10:25:38 **********
-Exception Type: System.Exception
-Exception: The error was unhandled by application code.
-Source: customErrors section - Web.config
-Stack Trace: 
